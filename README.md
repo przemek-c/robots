@@ -13,10 +13,10 @@ here to make robots:
 [Colab env](https://colab.research.google.com/github/google-deepmind/mujoco/blob/main/python/tutorial.ipynb)
 
 ## To do 
-I think need to read this, take notes
-*[MuJoCo overview](https://mujoco.readthedocs.io/en/stable/overview.html)
+I think need to read this, take notes  
+* [MuJoCo overview](https://mujoco.readthedocs.io/en/stable/overview.html)
 and then same with this
-*[Colab tutorial](https://colab.research.google.com/github/google-deepmind/mujoco/blob/main/python/tutorial.ipynb)
+* [Colab tutorial](https://colab.research.google.com/github/google-deepmind/mujoco/blob/main/python/tutorial.ipynb)
 and start asking questions
 
 ### links
