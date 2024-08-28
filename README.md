@@ -20,4 +20,5 @@ and then same with this
 and start asking questions
 
 ### links
-1. study wolf example with implementing stl files using SketchUp 
+1. study wolf example with implementing stl files using SketchUp
+2. [A collection of high-quality models for the MuJoCo](https://github.com/google-deepmind/mujoco_menagerie/tree/main)
