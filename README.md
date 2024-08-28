@@ -9,6 +9,8 @@ here to make robots:
   bicycle model 
 * drone
 * plane
+## Simulation
+[Colab env](https://colab.research.google.com/github/google-deepmind/mujoco/blob/main/python/tutorial.ipynb)
 
 ## To do 
 * add some xmls to repository to have fast way to read and learn 
