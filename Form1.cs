@@ -107,7 +107,10 @@ namespace Filtracja
             //poza metodę, w której te modyfikacje były dokonane
             //PS: zmienne typów int, double itd to tzw typy wartościowe, a nie referencyjne.
             //Oznacza to, że te typy są kopiowane do metody.
-            clear_image(pictureBox1, image_PB1);
+            // clear_image(pictureBox1, image_PB1);
+            wyczyszczenie_ekranow();
+            listView1.Items.Clear();
+            
         }
 
         private void button_Clr_PB2_Click(object sender, EventArgs e)
@@ -905,15 +908,10 @@ namespace Filtracja
         {
             // listView_Dane_Mechanika.Items.Clear();
             // image_PB3.Data = image_PB2.Data;
-
-            // u mnie z bufora 1 na image 2
-            //image_PB2.Data = image_buffers[0].Data;
-
             // u mnie na PB4
             image_PB4.Data = image_PB2.Data;
 
             //Reczne liczenie
-            //int x1, y1;
             double F, Sx, Sy, x0, y0;
             double Jx0, Jy0, Jx0y0, Jx, Jy, Jxy, Je_0, Jt_0;
             double alfa_e, alfa_t, alfa_e_deg, alfa_t_deg;
@@ -944,7 +942,7 @@ namespace Filtracja
             //Obliczenie środka cieżkości
             if (F > 0)
             {
-                x0 = Sy / F; // changed to int from double so have to do sth about this
+                x0 = Sy / F; // changed to int from double 
                 y0 = Sx / F;
             }
 
@@ -958,66 +956,25 @@ namespace Filtracja
 
         private string wyznaczenie_figury()
         {
-            //Zliczanie ilości wierzchołków figury
-            // czysc_obraz(image_PB3, pictureBox3);
-            // clear_image(pictureBox3, image_PB3);
-
             namaluj_dane_z_tabeli(tabela_promieni, null, new MCvScalar(255, 0, 0), TrybRysowania.TYLKO_DANE);
-
             usrednianie_wykresu();
 
             int liczba_wierzcholkow = 0;
             liczba_wierzcholkow = licz_wierzcholki(tabela_promieni, tabela_wartosci_srednich);
-            // w szesciokacie widzi raz 8, raz 7 wierzcholkow, przy kwadracie dla obu kolorow 2
-            // listView1.Items.Add("Liczba wierzcholkow: " + textBox_LW.Text);
 
             switch (liczba_wierzcholkow)
             {
                 case 3:
-                    // listView1.Items.Add("Trojkat ");
                     return "trojkat";
-                case 2: // troche chamsko ale dziala
-                    // listView1.Items.Add("Kwadrat ");
+                case 2: // dla prostokatow pokrywaja sie dwa wierzcholki?
                     return "prostokat";
                 case 5:
-                    // listView1.Items.Add("Pieciokat ");
                     return "pieciokat";
                 case 6:
-                    // listView1.Items.Add("Szesciokat ");
                     return "szesciokat";
                 default:
-                    // listView1.Items.Add("Whatever");
                     return "nieznany";
-
             }
-             
-            /*
-            if (liczba_wierzcholkow == 3)
-            {
-                // listView1.Items.Add("Trojkat ");
-                return "Trojkat";
-            }
-            else if (liczba_wierzcholkow == 4)
-            {
-                listView1.Items.Add("Kwadrat ");
-                return "Kwadrat";
-            }
-            else if (liczba_wierzcholkow == 5)
-            {
-                listView1.Items.Add("Pieciokat ");
-                return "Pieciokat";
-            }
-            else if (liczba_wierzcholkow == 6)
-            {
-                listView1.Items.Add("Szesciokat ");
-                return "Szesciokat";
-            }
-            else
-            {
-                listView1.Items.Add("Whatever");
-                return "Whatever";
-            }
-            */
         }
 
         private void czysc_obraz(Image<Bgr, byte> im, PictureBox PB)
@@ -1048,7 +1005,7 @@ namespace Filtracja
             }
             */
 
-            // do sprecyzowania bo powyzej parametr jest wybierany
+            // wybrany trzeci warunek z if
             kolor_nad_srednia = new MCvScalar(0, 255, 0);
 
             namaluj_dane_z_tabeli(tabela_promieni, tabela_wartosci_srednich, kolor_nad_srednia, TrybRysowania.NAD_KRZYWA);
@@ -1133,7 +1090,7 @@ namespace Filtracja
             }
             */
 
-            // do sprecyzowania bo wybrany pierwszy warunek z if w ciemno
+            // wybrany pierwszy warunek z if
 
             double avg = (data.Max() + data.Min()) / 2.0;
             for (int i = 0; i < data.Length; i++)
@@ -1175,9 +1132,9 @@ namespace Filtracja
             int w, h;
             int rX, rY, rW, rH;
             double sX, sY;
-            w = pictureBox3.Width; // MHM?
+            w = pictureBox3.Width;
             h = pictureBox3.Height;
-            // w = pictureBox4.Width; // MHM?
+            // w = pictureBox4.Width; 
             // h = pictureBox4.Height;
             sX = ((double)w / (double)liczba_promieni);//Dopasowanie szerokości
             sY = (((double)h - margines_na_tekst) / Math.Max(dane.Max(), 10));//Dopasowanie wysokości
@@ -1235,43 +1192,25 @@ namespace Filtracja
         string kolor = "unknown";
         int ilosc_obiektow = 0;
         string figura = "unknown";
+        int numer_obiektu = 0;
 
-        /* 
-         * ustawiam kolor
-         * wykonuje sie pozar czyli mam liczbe obiektow
-         * iteruje po liczbie obiektow i sprawdzam kszalt
-         * print numer kolor i ksztalt
-         */
         private void button1_Click(object sender, EventArgs e)
         {
-            wyczyszczenie_ekranow_calkowite();
+            numer_obiektu = 0;
+            listView1.Items.Clear();
+            
             button_From_File_PB1.PerformClick();
             button_Buf1_From_PB1.PerformClick();
             button_Buf2_From_PB1.PerformClick();
-
-
-            /*
-            kolor = "zolty";
-            ustawienie_wyszukiwania_koloru_zoltego();
-
-            operacje_wyluskania_obiektow();
-
-            //button_Buf3_To_PB2.PerformClick();
-            button_Buf2_To_PB1.PerformClick();
-
-            Rozpocznij_pozar(); // robi tego co jest na PB1
-            Pozar_Calosci(); // nr pozaru stad biore
-            ilosc_obiektow = nr_pozaru;
-            */
             
             for (int i = 1; i < liczba_kolorow + 1; i++)
             {
                 nr_pozaru = 0;
-                wyczyszczenie_ekranow_pomocniczych();
+                wyczyszczenie_ekranow();
                 button_From_File_PB1.PerformClick();
                 button_Buf1_From_PB1.PerformClick();
                 button_Buf2_From_PB1.PerformClick();
-
+                
                 switch (i)
                 {
                     case 1:
@@ -1287,44 +1226,29 @@ namespace Filtracja
                         ustawienie_wyszukiwania_koloru_zoltego();
                         break;
                 }
-                
-                
+
                 operacje_wyluskania_obiektow();
-                
-                //button_Buf3_To_PB2.PerformClick();
+
                 button_Buf2_To_PB1.PerformClick();
 
-                Rozpocznij_pozar(); // robi tego co jest na PB1
-                Pozar_Calosci(); // nr pozaru stad biore
+                Rozpocznij_pozar(); // tego co jest na PB1
+                Pozar_Calosci(); // stad biore nr pozaru
                 ilosc_obiektow = nr_pozaru + 1;
 
-                clear_image(pictureBox2, image_PB2); // upewnic sie - nom czyszcze bo mam w Buf 2 to 
+                clear_image(pictureBox2, image_PB2);
 
                 for (int j = 1; j < ilosc_obiektow; j++)
                 {
-                    Narysuj_wybrany_obiekt(j); // na PB2 jak rozumiem
-                    // Narysuj_wybrany_obiekt(2);
-
-                    // teraz obiekt do bufora i licznie mechaniki
+                    numer_obiektu += 1;
+                    Narysuj_wybrany_obiekt(j); // na PB2 
                     Point srodek = new Point();
-                    // button_Buf1_From_PB2.PerformClick();
                     srodek = obliczenie_srodka_ciezkosci(); // tego co na PB2 ale jakby kopiuje dane do PB4 tez
-                    // i tu sie psuje a raczej tu dopiero aktualizuje wszystko
-                    // ost czesc z liczeniem wierzcholkow
-                    // ino nie pomieszac z ekranami - gdzie ktory do czego jest uzywany
-                    click_na_trojkat(srodek);
-
-                    // tekst sie nie zgadza i na PB4 robi radialna jakby
-
-                    // tylko teraz to jeszcze poprawić myślę
-                    figura = wyznaczenie_figury(); // tu return ksztaltu
-                    // print nr czyli j + kolor + ksztalt
-                    listView1.Items.Add(j + ". "  + kolor + " " + figura + "\n");
-                    // przy zmianie kolor cos sie czarno robi jak wymusilem start od zielonego to pyklo nawet
+                    wyznaczenie_sygnatury(srodek);
+                    figura = wyznaczenie_figury(); 
+                    listView1.Items.Add(numer_obiektu + ". "  + kolor + " " + figura);
                 }
-                
             }
-            // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            button_Buf1_To_PB1.PerformClick();
         }
         
         private void operacje_wyluskania_obiektow()
@@ -1332,35 +1256,32 @@ namespace Filtracja
             Progow.PerformClick();
             button_Buf2_From_PB2.PerformClick();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 button_Dilate.PerformClick();
                 button_Buf3_To_PB2.PerformClick();
                 button_Buf2_From_PB2.PerformClick();
             }
-            for (int i = 0; i < 3; i++)
+
+            for (int i = 0; i < 5; i++)
             {
                 button_Erode.PerformClick();
                 button_Buf3_To_PB2.PerformClick();
                 button_Buf2_From_PB2.PerformClick();
             }
+            
+            for (int i = 0; i < 1; i++)
+            {
+                button_Dilate.PerformClick();
+                button_Buf3_To_PB2.PerformClick();
+                button_Buf2_From_PB2.PerformClick();
+            }
+
             radioButton_buf_AND.PerformClick();
             button_Logical_Operation.PerformClick();
         }
 
-        private void wyczyszczenie_ekranow_calkowite()
-        {
-            clear_image(pictureBox1, image_PB1);
-            clear_image(pictureBox2, image_PB2);
-            clear_image(pictureBox3, image_PB3);
-            clear_image(pictureBox4, image_PB4);
-            clear_image(pictureBox_BUF1, image_buffers[0]);
-            clear_image(pictureBox_BUF2, image_buffers[1]);
-            clear_image(pictureBox_BUF3, image_buffers[2]);
-            listView1.Items.Clear();
-        }
-
-        private void wyczyszczenie_ekranow_pomocniczych()
+        private void wyczyszczenie_ekranow()
         {
             clear_image(pictureBox1, image_PB1);
             clear_image(pictureBox2, image_PB2);
@@ -1373,59 +1294,81 @@ namespace Filtracja
 
         private void ustawienie_wyszukiwania_koloru_czerwonego()
         {
+            // paint
+            /*
             UpDownBL.Value = 33;
             UpDownBH.Value = 52;
             UpDownGL.Value = 27;
             UpDownGH.Value = 41;
             UpDownRL.Value = 200;
             UpDownRH.Value = 255;
+            */
+            // zdjecia
+            UpDownBL.Value = 30;
+            UpDownBH.Value = 210;
+
+            UpDownGL.Value = 50;
+            UpDownGH.Value = 80;
+
+            UpDownRL.Value = 120;
+            UpDownRH.Value = 175;
         }
 
         private void ustawienie_wyszukiwania_koloru_zielonego()
         {
-            UpDownBL.Value = 50; // poprawic parametry
+            // paint
+            /*
+            UpDownBL.Value = 50;
             UpDownBH.Value = 100;
             UpDownGL.Value = 150;
             UpDownGH.Value = 200;
             UpDownRL.Value = 10;
             UpDownRH.Value = 60;
+            */
+            // zdjecia
+            UpDownBL.Value = 30;
+            UpDownBH.Value = 70;
+
+            UpDownGL.Value = 40;
+            UpDownGH.Value = 125;
+
+            UpDownRL.Value = 30;
+            UpDownRH.Value = 75;
         }
 
         private void ustawienie_wyszukiwania_koloru_zoltego()
         {
-            UpDownBL.Value = 0; // poprawic parametry
+            // paint
+            /*
+            UpDownBL.Value = 0;
             UpDownBH.Value = 25;
             UpDownGL.Value = 215;
             UpDownGH.Value = 255;
             UpDownRL.Value = 230;
             UpDownRH.Value = 255;
+            */
+            // zdjecia
+            UpDownBL.Value = 40;
+            UpDownBH.Value = 80;
+
+            UpDownGL.Value = 150;
+            UpDownGH.Value = 220;
+
+            UpDownRL.Value = 140;
+            UpDownRH.Value = 250;
         }
 
-        /*
-* dziala ten zjazd 9 jak dam bialy trojkat i klikne mu na srodek to sie pojawia sygnatura nizej
-* czyli musze przerzucic wybielony rysunek
-* dalej srodek ciezkosci przekazac jako klikniecie
-*/
-        private void click_na_trojkat(/*object sender, EventArgs e,*/ Point m_srodek)
+        private void wyznaczenie_sygnatury(Point m_srodek)
         {
             //Rysuje sygnature w miejscu klikniecia
             // MouseEventArgs me = e as MouseEventArgs;
-
-            // PB3 od radialnej w sensie ten prostokatny
-            // PB4 kwadratowy
-
             tabela_promieni = sygnatura_radialna(m_srodek);
-            // czysc_obraz(image_PB3, pictureBox3);
-            namaluj_dane_z_tabeli(tabela_promieni, null, new MCvScalar(255, 0, 0), TrybRysowania.TYLKO_DANE); // TU CHYBA NA Z PB3 NA PB4 
+            namaluj_dane_z_tabeli(tabela_promieni, null, new MCvScalar(255, 0, 0), TrybRysowania.TYLKO_DANE);
             // private void namaluj_dane_z_tabeli(double[] dane, double[] krzywa, MCvScalar kolor, TrybRysowania tryb)
             usrednianie_wykresu();
-
-            //Dodatkowo wylistować wartośc Min i Max z tabela_promieni
-            //Odnaleźć tabelę w której przechowywane są usrednione wartości
-            //sygnatury i wypisać przykładową wartośc z tej tabeli
-            // listView1.Items.Add("Punkt kliknięcia: " + me.Location.ToString());
         }
         private int kat_poczatkowy;
+
         private double[] sygnatura_radialna(Point start)
         {
             MCvScalar kolor_promienia = new MCvScalar();
